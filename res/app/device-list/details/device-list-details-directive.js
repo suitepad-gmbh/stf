@@ -147,10 +147,73 @@ module.exports = function DeviceListDetailsDirective(
         destroyXeditableNote(id)
       }
 
+      // On clicking device-target-edit icon
+      // This function will create a new angular-xeditable span
+      // inside xeditableWrapper and compile it with
+      // new child scope.
+      // Childscope will be destroyed when the editing will be over
+      function checkDeviceTarget(e) {
+        if (e.target.classList.contains('device-target-edit')) {
+
+          var i = e.target
+          var id = i.parentNode.parentNode.id
+          var device = mapping[id]
+          var xeditableWrapper = i.parentNode.firstChild
+          var xeditableSpan = document.createElement('span')
+          var childScope = scope.$new()
+
+          // Ref: http://vitalets.github.io/angular-xeditable/#text-btn
+          xeditableSpan.setAttribute('editable-text', 'device.target')
+          xeditableSpan.setAttribute('onbeforesave', 'updateTarget(id, device.serial, $data)')
+          xeditableSpan.setAttribute('onCancel', 'onDeviceTargetCancel(id)')
+
+          childScope.id = id
+          childScope.device = device
+          childScopes[id] = childScope
+
+          $compile(xeditableSpan)(childScope)
+          xeditableWrapper.appendChild(xeditableSpan)
+
+          // Trigger click to open the form.
+          angular.element(xeditableSpan).triggerHandler('click')
+        }
+      }
+
+      function destroyXeditableTarget(id) {
+        var tr = tbody.children[id]
+        for (var i = 0; i < tr.cells.length; i++) {
+          var col = tr.cells[i]
+
+          if (col.firstChild &&
+              col.firstChild.nodeName.toLowerCase() === 'span' &&
+              col.firstChild.classList.contains('xeditable-wrapper')) {
+
+            var xeditableWrapper = col.firstChild
+            var children = xeditableWrapper.children
+
+            // Remove all childs under xeditablerWrapper
+            for (var j = 0; j < children.length; j++) {
+              xeditableWrapper.removeChild(children[j])
+            }
+          }
+        }
+        childScopes[id].$destroy()
+      }
+
+      scope.updateTarget = function(id, serial, target) {
+        DeviceService.updateTarget(serial, target)
+        destroyXeditableTarget(id)
+      }
+
+      scope.onDeviceTargetCancel = function(id) {
+        destroyXeditableTarget(id)
+      }
+
       element.on('click', function(e) {
         checkDeviceStatus(e)
         checkDeviceSmallImage(e)
         checkDeviceNote(e)
+        checkDeviceTarget(e)
       })
 
       // Import column definitions

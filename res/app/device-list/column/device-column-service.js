@@ -287,6 +287,12 @@ module.exports = function DeviceColumnService($filter, gettext) {
         return device.notes || ''
       }
     })
+  , target: DeviceTargetCell({
+      title: gettext('Test Target')
+    , value: function(device) {
+        return device.target || device.model || ''
+      }
+    })
   , owner: LinkCell({
       title: gettext('User')
     , target: '_blank'
@@ -670,6 +676,42 @@ function DeviceNoteCell(options) {
       span.appendChild(document.createTextNode(''))
 
       i.className = 'device-note-edit fa fa-pencil pointer'
+
+      td.appendChild(span)
+      td.appendChild(i)
+
+      return td
+    }
+  , update: function(td, item) {
+      var span = td.firstChild
+      var t = span.firstChild
+
+      t.nodeValue = options.value(item)
+      return td
+    }
+  , compare: function(a, b) {
+      return compareIgnoreCase(options.value(a), options.value(b))
+    }
+  , filter: function(item, filter) {
+      return filterIgnoreCase(options.value(item), filter.query)
+    }
+  })
+}
+
+function DeviceTargetCell(options) {
+  return _.defaults(options, {
+    title: options.title
+  , defaultOrder: 'asc'
+  , build: function() {
+      var td = document.createElement('td')
+      var span = document.createElement('span')
+      var i = document.createElement('i')
+
+      td.className = 'device-target'
+      span.className = 'xeditable-wrapper'
+      span.appendChild(document.createTextNode(''))
+
+      i.className = 'device-target-edit fa fa-pencil pointer'
 
       td.appendChild(span)
       td.appendChild(i)

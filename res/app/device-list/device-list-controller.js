@@ -120,6 +120,10 @@ module.exports = function DeviceListCtrl(
     , selected: true
     }
   , {
+      name: 'target'
+    , selected: true
+    }
+  , {
       name: 'owner'
     , selected: true
     }
