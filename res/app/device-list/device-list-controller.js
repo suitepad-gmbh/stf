@@ -29,15 +29,15 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'serial'
-    , selected: false
+    , selected: true 
     }
   , {
       name: 'operator'
-    , selected: true
+    , selected: false 
     }
   , {
       name: 'releasedAt'
-    , selected: true
+    , selected: false 
     }
   , {
       name: 'version'
@@ -57,11 +57,11 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'sdk'
-    , selected: false
+    , selected: true 
     }
   , {
       name: 'abi'
-    , selected: false
+    , selected: true 
     }
   , {
       name: 'cpuPlatform'
