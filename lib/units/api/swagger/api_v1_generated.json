@@ -400,7 +400,75 @@
         ]
       }
     },
-    "/swagger.json": {}
+    "/devices/{serial}/unlock": {
+      "get": {
+        "summary": "Disable kiosk mode",
+        "description": "This will force the device to disable kiosk mode",
+        "operationId": "unlockDevice",
+        "tags": [
+          "devices"
+        ],
+        "parameters": [
+          {
+            "name": "serial",
+            "in": "path",
+            "description": "Device Serial",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/devices/{serial}/lock": {
+      "get": {
+        "summary": "Enable kiosk mode",
+        "description": "This will force the device to enable kiosk mode",
+        "operationId": "lockDevice",
+        "tags": [
+          "devices"
+        ],
+        "parameters": [
+          {
+            "name": "serial",
+            "in": "path",
+            "description": "Device Serial",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/swagger.json": {
+      "x-swagger-pipe": "swagger_raw"
+    }
   },
   "definitions": {
     "UserResponse": {
@@ -476,6 +544,16 @@
         "timeout": {
           "description": "Device timeout in ms. If device is kept idle for this period, it will be automatically disconnected. Default is provider group timeout",
           "type": "integer"
+        }
+      }
+    },
+    "SuccessResponse": {
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string"
         }
       }
     },
