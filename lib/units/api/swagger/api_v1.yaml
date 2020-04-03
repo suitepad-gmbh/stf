@@ -2131,6 +2131,8 @@ paths:
           description: Unexpected Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      security:
+        - accessTokenAuth: []
   /devices/{serial}/lock:
     x-swagger-router-controller: devices
     get:
@@ -2154,6 +2156,8 @@ paths:
           description: Unexpected Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      security:
+        - accessTokenAuth: []
   /swagger.json:
     x-swagger-pipe: swagger_raw
 definitions:
