@@ -97,7 +97,8 @@
     "uuid": "^3.0.0",
     "ws": "^3.0.0",
     "yargs": "^6.6.0",
-    "zmq": "^2.14.0"
+    "zmq": "^2.14.0",
+    "stream-buffers": "^3.0.2"
   },
   "devDependencies": {
     "async": "^2.0.1",

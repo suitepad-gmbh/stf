@@ -1799,6 +1799,38 @@ paths:
             $ref: "#/definitions/UnexpectedErrorResponse"
       security:
         - accessTokenAuth: []
+  /devices/install:
+    x-swagger-router-controller: devices
+    post:
+      summary: Install apk
+      description: This will upload the apk to the server and install it on the device
+      operationId: installApk
+      tags:
+        - devices
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: serials
+          in: formData 
+          description: Comma seperated device serials
+          required: true
+          type: string
+        - name: apk
+          in: formData
+          type: file
+          description: Apk to install
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - accessTokenAuth: []
   /devices/{serial}:
     x-swagger-router-controller: devices
     get:
